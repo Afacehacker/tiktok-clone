@@ -63,20 +63,31 @@ const App = () => {
 
   const handleAvatarChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setEditForm({ ...editForm, avatar: URL.createObjectURL(e.target.files[0]) });
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setEditForm(prev => ({ ...prev, avatar: event.target.result }));
+      };
+      reader.readAsDataURL(e.target.files[0]);
     }
   };
 
   const handlePostUpload = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      const newVideo = {
-        id: Date.now(),
-        views: '0',
-        url: URL.createObjectURL(file),
-        type: file.type.startsWith('video/') ? 'video' : 'image'
+      const isVideo = file.type.startsWith('video/');
+      const reader = new FileReader();
+      
+      reader.onload = (event) => {
+        const newVideo = {
+          id: Date.now(),
+          views: '0',
+          url: event.target.result,
+          type: isVideo ? 'video' : 'image'
+        };
+        setVideos(prev => [newVideo, ...prev]);
       };
-      setVideos([newVideo, ...videos]);
+      
+      reader.readAsDataURL(file);
       // Reset the input value so the same file can be uploaded again if needed
       e.target.value = null;
     }
