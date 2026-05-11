@@ -40,15 +40,15 @@ const App = () => {
     following: '6',
     followers: '2,093',
     likes: '781',
-    avatar: null
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop'
   });
 
   const [videos, setVideos] = useState([
-    { id: 1, views: '145', url: null, type: 'image' },
-    { id: 2, views: '229', url: null, type: 'image' },
-    { id: 3, views: '216', url: null, type: 'image' },
-    { id: 4, views: '2,507', url: null, type: 'image' },
-    { id: 5, views: '1,926', url: null, type: 'image' },
+    { id: 1, views: '145', url: 'https://images.unsplash.com/photo-1516483638261-f40af5aa11ce?w=400&h=600&fit=crop', type: 'image' },
+    { id: 2, views: '229', url: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?w=400&h=600&fit=crop', type: 'image' },
+    { id: 3, views: '216', url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=600&fit=crop', type: 'image' },
+    { id: 4, views: '2,507', url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=600&fit=crop', type: 'image' },
+    { id: 5, views: '1,926', url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=600&fit=crop', type: 'image' },
   ]);
 
   const openEdit = () => {
