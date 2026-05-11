@@ -21,7 +21,8 @@ import {
   Wifi,
   Battery,
   Signal,
-  Smartphone
+  Smartphone,
+  Check
 } from 'lucide-react';
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
     following: '6',
     followers: '2,093',
     likes: '781',
+    isVerified: false,
     avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop'
   });
 
@@ -176,6 +178,11 @@ const App = () => {
                 <button className="p-1"><Menu size={24} className="stroke-[1.5]" /></button>
                 <div className="flex items-center gap-1">
                   <span className="font-bold text-[17px]">{profile.name}</span>
+                  {profile.isVerified && (
+                    <div className="bg-[#20D5EC] rounded-full p-[1.5px] flex items-center justify-center">
+                      <Check size={10} className="stroke-white stroke-[4]" />
+                    </div>
+                  )}
                   <ChevronDown size={18} className="stroke-[2]" />
                 </div>
                 <div className="flex items-center gap-3">
@@ -224,6 +231,11 @@ const App = () => {
           {/* Name & Username */}
           <div className="flex items-center gap-1 mb-1">
             <h2 className="text-xl font-bold">{profile.name}</h2>
+            {profile.isVerified && (
+              <div className="bg-[#20D5EC] rounded-full p-[2px] flex items-center justify-center mt-0.5 mx-0.5">
+                <Check size={12} className="stroke-white stroke-[4]" />
+              </div>
+            )}
             <ChevronDown size={20} className="stroke-[2] mt-1" />
             <button onClick={openEdit} className="ml-2 bg-gray-100 px-3 py-1.5 rounded-full font-semibold text-sm hover:bg-gray-200">
               Edit
@@ -416,6 +428,15 @@ const App = () => {
                     className="w-full bg-transparent outline-none text-[15px] font-medium min-h-[60px] resize-none py-1" 
                     placeholder="Add a bio"
                   />
+                </div>
+                <div className="flex items-center justify-between py-4 border-b border-gray-100">
+                  <label className="text-[14px] text-gray-800 font-medium">Verified Account</label>
+                  <button 
+                    onClick={() => setEditForm({...editForm, isVerified: !editForm.isVerified})}
+                    className={`w-11 h-6 rounded-full transition-colors relative ${editForm.isVerified ? 'bg-emerald-500' : 'bg-gray-200'}`}
+                  >
+                    <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform shadow-sm ${editForm.isVerified ? 'translate-x-5' : 'translate-x-0.5'}`}></div>
+                  </button>
                 </div>
                 
                 <div className="grid grid-cols-3 gap-4 py-3">
