@@ -249,12 +249,21 @@ const App = () => {
             </div>
           </div>
 
+          {/* Bio */}
+          {profile.bio && (
+            <div className="text-center text-[14px] mb-4 px-6 whitespace-pre-wrap leading-snug font-normal text-black">
+              {profile.bio}
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="flex gap-2 mb-6 text-sm w-full max-w-[320px] justify-center">
-            <button className="bg-gray-100 px-4 py-2 rounded-sm font-semibold flex items-center gap-1">
-              <Plus size={16} className="stroke-[2.5]" />
-              Add bio
-            </button>
+            {!profile.bio && (
+              <button onClick={openEdit} className="bg-gray-100 px-4 py-2 rounded-sm font-semibold flex items-center gap-1">
+                <Plus size={16} className="stroke-[2.5]" />
+                Add bio
+              </button>
+            )}
             <button className="bg-gray-100 px-4 py-2 rounded-sm text-gray-600 flex items-center gap-1 truncate max-w-[180px]">
               <Video size={16} />
               I create content about...
