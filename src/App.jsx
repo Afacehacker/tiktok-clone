@@ -257,18 +257,18 @@ const App = () => {
           )}
 
           {/* Action Buttons */}
-          <div className="flex gap-2 mb-6 text-sm w-full max-w-[320px] justify-center">
-            {!profile.bio && (
+          {!profile.bio && (
+            <div className="flex gap-2 mb-6 text-sm w-full max-w-[320px] justify-center">
               <button onClick={openEdit} className="bg-gray-100 px-4 py-2 rounded-sm font-semibold flex items-center gap-1">
                 <Plus size={16} className="stroke-[2.5]" />
                 Add bio
               </button>
-            )}
-            <button className="bg-gray-100 px-4 py-2 rounded-sm text-gray-600 flex items-center gap-1 truncate max-w-[180px]">
-              <Video size={16} />
-              I create content about...
-            </button>
-          </div>
+              <button className="bg-gray-100 px-4 py-2 rounded-sm text-gray-600 flex items-center gap-1 truncate max-w-[180px]">
+                <Video size={16} />
+                I create content about...
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Tab Navigation */}
