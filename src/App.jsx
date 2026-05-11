@@ -17,10 +17,15 @@ import {
   ChevronDown,
   Repeat2,
   Heart,
-  Video
+  Video,
+  Wifi,
+  Battery,
+  Signal,
+  Smartphone
 } from 'lucide-react';
 
 const App = () => {
+  const [deviceType, setDeviceType] = useState(null);
   const [activeTab, setActiveTab] = useState('videos');
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editingVideo, setEditingVideo] = useState(null);
@@ -39,11 +44,11 @@ const App = () => {
   });
 
   const [videos, setVideos] = useState([
-    { id: 1, views: '145', url: null },
-    { id: 2, views: '229', url: null },
-    { id: 3, views: '216', url: null },
-    { id: 4, views: '2,507', url: null },
-    { id: 5, views: '1,926', url: null },
+    { id: 1, views: '145', url: null, type: 'image' },
+    { id: 2, views: '229', url: null, type: 'image' },
+    { id: 3, views: '216', url: null, type: 'image' },
+    { id: 4, views: '2,507', url: null, type: 'image' },
+    { id: 5, views: '1,926', url: null, type: 'image' },
   ]);
 
   const openEdit = () => {
@@ -64,12 +69,16 @@ const App = () => {
 
   const handlePostUpload = (e) => {
     if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
       const newVideo = {
         id: Date.now(),
         views: '0',
-        url: URL.createObjectURL(e.target.files[0])
+        url: URL.createObjectURL(file),
+        type: file.type.startsWith('video/') ? 'video' : 'image'
       };
       setVideos([newVideo, ...videos]);
+      // Reset the input value so the same file can be uploaded again if needed
+      e.target.value = null;
     }
   };
 
@@ -78,26 +87,110 @@ const App = () => {
     setEditingVideo(null);
   };
 
+  if (!deviceType) {
+    return (
+      <div className="bg-zinc-100 min-h-screen flex items-center justify-center p-4 font-sans">
+        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full text-center">
+          <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+            <Smartphone size={32} className="text-gray-700" />
+          </div>
+          <h1 className="text-2xl font-bold mb-2">Select Template</h1>
+          <p className="text-gray-500 mb-8 text-sm">Choose the device operating system template for your TikTok profile clone.</p>
+          <div className="space-y-4">
+            <button 
+              onClick={() => setDeviceType('iphone')}
+              className="w-full py-3.5 rounded-xl bg-black text-white font-semibold flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors shadow-md"
+            >
+              iPhone Template
+            </button>
+            <button 
+              onClick={() => setDeviceType('android')}
+              className="w-full py-3.5 rounded-xl bg-emerald-500 text-white font-semibold flex items-center justify-center gap-2 hover:bg-emerald-600 transition-colors shadow-md"
+            >
+              Android Template
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-zinc-100 min-h-screen text-black font-sans flex justify-center">
-      <div className="w-full max-w-[480px] bg-white min-h-screen relative shadow-lg pb-16">
-        {/* Top Navigation */}
-        <header className="sticky top-0 z-50 bg-white flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <UserPlus size={26} className="stroke-[1.5]" />
-              <div className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">2</div>
+    <div className="bg-zinc-100 min-h-screen text-black font-sans flex justify-center relative">
+      {/* Floating Change Template Button */}
+      <button 
+        onClick={() => setDeviceType(null)}
+        className="fixed top-4 right-4 bg-white px-4 py-2 rounded-full shadow-md text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors z-[200] border border-gray-200 hidden sm:block"
+      >
+        Change Template
+      </button>
+
+      <div className={`w-full max-w-[480px] bg-white min-h-screen relative shadow-lg pb-16 ${deviceType === 'iphone' ? 'sm:rounded-[40px] sm:my-4 sm:border-[8px] sm:border-black sm:min-h-[calc(100vh-2rem)] overflow-hidden' : ''}`}>
+        
+        {/* Sticky Header Container */}
+        <div className="sticky top-0 z-50 bg-white">
+          {/* Status Bar */}
+          {deviceType === 'iphone' ? (
+            <div className="h-12 w-full flex items-center justify-between px-7 pt-2 text-black bg-white">
+              <span className="text-[15px] font-semibold tracking-tight">9:41</span>
+              
+              {/* Dynamic Island Mock */}
+              <div className="absolute left-1/2 -translate-x-1/2 w-[120px] h-[30px] bg-black rounded-full top-1 hidden sm:block"></div>
+              
+              <div className="flex items-center gap-1.5">
+                <Signal size={16} className="fill-black" />
+                <Wifi size={16} />
+                <Battery size={20} />
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-5 text-black">
-            <div className="flex items-center gap-1">
-              <Footprints size={22} className="stroke-[1.5]" />
-              <span className="font-bold text-sm">99</span>
+          ) : (
+            <div className="h-8 w-full flex items-center justify-between px-3 text-black bg-white">
+              <div className="flex items-center gap-2">
+                <span className="text-[13px] font-medium tracking-tight mt-0.5">11:01</span>
+                <MessageSquare size={12} className="fill-gray-500 text-gray-500" />
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="text-[10px] font-bold">4G</span>
+                <Signal size={14} className="fill-black" />
+                <span className="text-[11px] font-bold">66</span>
+                <Battery size={16} className="fill-black" />
+              </div>
             </div>
-            <Forward size={24} className="stroke-[1.5]" />
-            <Menu size={24} className="stroke-[1.5]" />
-          </div>
-        </header>
+          )}
+
+          {/* Top Navigation */}
+          <header className="flex items-center justify-between px-4 py-2 border-b border-gray-100">
+            {deviceType === 'iphone' ? (
+              <>
+                <button className="p-1"><Menu size={24} className="stroke-[1.5]" /></button>
+                <div className="flex items-center gap-1">
+                  <span className="font-bold text-[17px]">{profile.name}</span>
+                  <ChevronDown size={18} className="stroke-[2]" />
+                </div>
+                <div className="flex items-center gap-3">
+                  <Footprints size={22} className="stroke-[1.5]" />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <UserPlus size={26} className="stroke-[1.5]" />
+                    <div className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">2</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-5 text-black">
+                  <div className="flex items-center gap-1">
+                    <Footprints size={22} className="stroke-[1.5]" />
+                    <span className="font-bold text-sm">99</span>
+                  </div>
+                  <Forward size={24} className="stroke-[1.5]" />
+                  <Menu size={24} className="stroke-[1.5]" />
+                </div>
+              </>
+            )}
+          </header>
+        </div>
 
         {/* Profile Info */}
         <div className="pt-2 px-4 flex flex-col items-center">
@@ -201,7 +294,11 @@ const App = () => {
               onClick={() => setEditingVideo(video)}
             >
               {video.url ? (
-                <img src={video.url} className="w-full h-full object-cover" alt="post" />
+                video.type === 'video' ? (
+                  <video src={video.url} className="w-full h-full object-cover" autoPlay muted loop playsInline />
+                ) : (
+                  <img src={video.url} className="w-full h-full object-cover" alt="post" />
+                )
               ) : (
                 <div className="w-full h-full bg-gray-300"></div>
               )}
@@ -217,7 +314,7 @@ const App = () => {
         </div>
 
         {/* Bottom Navigation Bar */}
-        <nav className="absolute sm:fixed bottom-0 sm:left-1/2 sm:-translate-x-1/2 left-0 right-0 w-full sm:max-w-[480px] bg-white border-t border-gray-200 flex justify-between items-center px-4 py-2 pb-safe z-50">
+        <nav className={`absolute sm:fixed bottom-0 sm:left-1/2 sm:-translate-x-1/2 left-0 right-0 w-full sm:max-w-[480px] bg-white border-t border-gray-200 flex justify-between items-center px-4 py-2 pb-safe z-50 ${deviceType === 'iphone' ? 'sm:rounded-b-[32px] pb-6' : ''}`}>
           <button className="flex flex-col items-center gap-1 text-gray-400">
             <Home size={24} className="stroke-[1.5]" />
             <span className="text-[10px] font-medium">Home</span>
