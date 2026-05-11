@@ -326,7 +326,7 @@ const App = () => {
           
           {/* Upload Button */}
           <label className="w-12 h-8 bg-black rounded-lg flex items-center justify-center relative mt-1 cursor-pointer">
-            <input type="file" accept="image/*,video/*" className="hidden" onChange={handlePostUpload} />
+            <input type="file" accept="image/*,video/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-50" onChange={handlePostUpload} />
             <div className="absolute w-full h-full border-l-4 border-cyan-400 border-r-4 border-rose-500 rounded-lg -z-10 blur-[1px]"></div>
             <Plus size={20} className="text-white font-bold stroke-[3px]" />
           </label>
@@ -358,8 +358,8 @@ const App = () => {
             
             {/* Modal Content */}
             <div className="flex-1 overflow-y-auto p-4 pb-20 bg-gray-50">
-              <label className="flex flex-col items-center mb-8 mt-4 cursor-pointer">
-                <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+              <label className="flex flex-col items-center mb-8 mt-4 cursor-pointer relative">
+                <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-50" onChange={handleAvatarChange} />
                 <div className="w-24 h-24 rounded-full bg-gray-200 mb-2 relative flex items-center justify-center overflow-hidden border border-gray-300">
                   {editForm.avatar ? <img src={editForm.avatar} className="absolute inset-0 w-full h-full object-cover" alt="avatar" /> : <User size={40} className="text-gray-400" />}
                   <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center">
